@@ -256,8 +256,9 @@ export const instrumentCommand =
 
 export const importStack = Effect.fn(function* (main: string) {
   const path = yield* Path.Path;
-  const url = import.meta.resolve(path.resolve(main));
-  const module = yield* Effect.promise(() => import(url));
+  const module = yield* Effect.promise(
+    () => import(import.meta.resolve(path.resolve(main))),
+  );
   const stackEffect = module.default as ReturnType<
     ReturnType<typeof Stack.make>
   >;
